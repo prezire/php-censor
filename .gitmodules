@@ -1,0 +1,3 @@
+[submodule "docker-php-censor"]
+	path = docker-php-censor
+	url = https://github.com/php-censor/docker-php-censor.git

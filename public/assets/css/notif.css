@@ -1,0 +1,10 @@
+.sidebar-menu .treeview-menu.projects li {
+  position: relative; }
+  .sidebar-menu .treeview-menu.projects li #notif.project {
+    position: absolute;
+    top: 8px;
+    right: 10px; }
+    .sidebar-menu .treeview-menu.projects li #notif.project a {
+      color: #fff; }
+
+/*# sourceMappingURL=notif.css.map */

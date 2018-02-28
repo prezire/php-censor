@@ -1,0 +1,14 @@
+.sidebar-menu
+{
+  .treeview-menu.projects li
+  {
+    position: relative;
+    #notif.project
+    {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      a{color: #fff;}
+    }
+  }
+}

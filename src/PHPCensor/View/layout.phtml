@@ -20,6 +20,8 @@ $user = $this->getUser();
     <link href="<?php print APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php print APP_URL; ?>assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
+    <?php css('notif.css'); ?>
+
     <script src="<?php print APP_URL; ?>assets/js/class.js"></script>
 
     <script src="<?php print APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -46,6 +48,12 @@ $user = $this->getUser();
 
 </head>
 <body class="app-layout <?php print !empty($skin) ? 'skin-' . $skin : 'skin-black'; ?>">
+
+<input type="hidden" 
+    id="push-notif"
+    data-host="<?php echo config('php-censor.notifs.uri'); ?>"
+    data-topic="<?php echo config('php-censor.notifs.topic'); ?>" />
+
 <div class="wrapper row-offcanvas row-offcanvas-left">
 
 <!-- header logo: style can be found in header.less -->
@@ -186,13 +194,18 @@ $user = $this->getUser();
                         </a>
 
                         <?php if (count($group['projects'])): ?>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu projects">
                             <?php foreach($group['projects'] as $project): ?>
                             <li>
                                 <a href="<?php print APP_URL; ?>project/view/<?= $project->getId(); ?>">
                                     <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
                                     <span><?php print $project->getTitle(); ?></span>
                                 </a>
+                                <span id="notif" class="project label label-danger">
+                                    <a href="http://www.google.com">
+                                        1000
+                                    </a>
+                                </span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
@@ -261,6 +274,12 @@ $user = $this->getUser();
     <footer class="main-footer">
         PHP Censor v<?= $version; ?>
     </footer>
+
+    <!-- TODO: Gulp assets. -->
+    <script src="<?php print vendor('notifyjs/dist/notify.js'); ?>"></script>
+    <?php js('notifs/autobahn.js'); ?>
+    <?php js('notifs/ws.message.js'); ?>
+    <?php js('notifs/ws.notif.js'); ?>
 </div>
 </body>
 </html>

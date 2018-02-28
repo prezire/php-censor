@@ -28,7 +28,8 @@
     "psr-4": {
       "PHPCensor\\": "src/PHPCensor/",
       "b8\\":        "src/B8Framework/"
-    }
+    },
+    "files": ["src/PHPCensor/Helper/helpers.php"]
   },
   "autoload-dev": {
     "psr-4": {

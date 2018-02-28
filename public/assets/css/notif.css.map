@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEE,wCACA;EACE,QAAQ,EAAE,QAAQ;EAClB,uDACA;IACE,QAAQ,EAAE,QAAQ;IAClB,GAAG,EAAE,GAAG;IACR,KAAK,EAAE,IAAI;IACX,yDAAC;MAAC,KAAK,EAAE,IAAI",
+"sources": ["notif.scss"],
+"names": [],
+"file": "notif.css"
+}

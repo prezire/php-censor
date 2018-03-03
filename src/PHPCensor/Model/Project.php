@@ -15,19 +15,9 @@ use Symfony\Component\Yaml\Dumper as YamlDumper;
 class Project extends Model
 {
     /**
-     * @var array
-     */
-    public static $sleepable = [];
-
-    /**
      * @var string
      */
     protected $tableName = 'project';
-
-    /**
-     * @var string
-     */
-    protected $modelName = 'Project';
 
     /**
      * @var array
@@ -522,7 +512,7 @@ class Project extends Model
         }
 
         $order  = ['id' => 'DESC'];
-        $builds = Store\Factory::getStore('Build')->getWhere($criteria, 1, 0, [], $order);
+        $builds = Store\Factory::getStore('Build')->getWhere($criteria, 1, 0, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $latest = array_shift($builds['items']);
@@ -546,7 +536,7 @@ class Project extends Model
     {
         $criteria = ['branch' => $branch, 'project_id' => $this->getId()];
         $order    = ['id' => 'DESC'];
-        $builds   = Store\Factory::getStore('Build')->getWhere($criteria, 1, 1, [], $order);
+        $builds   = Store\Factory::getStore('Build')->getWhere($criteria, 1, 1, $order);
 
         if (is_array($builds['items']) && count($builds['items'])) {
             $previous = array_shift($builds['items']);

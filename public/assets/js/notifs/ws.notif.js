@@ -9,11 +9,17 @@ Refer to the layout view.
   this.WsNotif = (function() {
     function WsNotif(wsUri, topicUri) {
       var conn, ctx, protocol;
-      protocol = window.location.protocol === 'http:' ? 'ws:' : 'wss:';
+      if (window.location.protocol === 'http:') {
+        protocol = 'ws:';
+      } else {
+        protocol = 'wss:';
+      }
       wsUri = protocol + "//" + wsUri;
       ctx = this;
       conn = new ab.Session(wsUri, function() {
-        return conn.subscribe(topicUri, ctx.onSub);
+        return conn.subscribe(topicUri, function(topic, data) {
+          return ctx.onSub(topic, data);
+        });
       }, function() {
         return console.log('something went wrong.');
       }, {
@@ -22,23 +28,32 @@ Refer to the layout view.
     }
 
     WsNotif.prototype.onSub = function(topic, data) {
-      return console.log(topic, data);
+      var title, url, value;
+      title = 'Git Test';
+      value = 1;
+      url = 'http://www.google.com';
+      return this.render(title, value, url);
     };
 
 
     /*
-    @param  string  label  The string to compare to, in order
+    @param  string  title  The string to compare to, in order
     to render a new notification.
     @param  string  value  The string to render. This will be
-    used by the label once there's a new notification to be 
+    used by the title once there's a new notification to be 
     rendered.
     @param  string  url
      */
 
-    WsNotif.prototype.render = function(label, value, url) {
-      var sProj;
-      sProj = '.sidebar-menu .treeview-menu.projects #notif.project';
-      return $(sProj + ":contains('" + label + "')").html(value);
+    WsNotif.prototype.render = function(title, value, url) {
+      var i, oNotif, sProj, sTitle;
+      sProj = '.sidebar-menu .treeview-menu.projects';
+      sTitle = sProj + " li > a > span";
+      i = $(sTitle + ":contains('" + title + "')").length;
+      if (i > 0) {
+        oNotif = $(sProj + " #notif.project a");
+        return oNotif.html(value);
+      }
     };
 
     return WsNotif;

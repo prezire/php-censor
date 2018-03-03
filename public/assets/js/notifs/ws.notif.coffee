@@ -4,31 +4,45 @@ Refer to the layout view.
 ###
 class @WsNotif
   constructor: (wsUri, topicUri) ->
-    protocol = if window.location.protocol is 'http:' then 'ws:' else 'wss:'
+    if window.location.protocol is 'http:' 
+      protocol = 'ws:'
+    else
+      protocol = 'wss:'
     wsUri = "#{protocol}//#{wsUri}"
     ctx = @
     conn = new ab.Session wsUri, 
       -> 
-        conn.subscribe topicUri, ctx.onSub
+        conn.subscribe topicUri, (topic, data) ->
+          ctx.onSub topic, data
       ,
-      -> console.log('something went wrong.'),
+      -> 
+        console.log('something went wrong.')
+      ,
       {'skipSubprotocolCheck': true}
 
   onSub: (topic, data) ->
-    console.log topic, data
-    #@render()
+    #title = data.title
+    title = 'Git Test'
+    value = 1
+    url = 'http://www.google.com'
+    @render title, value, url
 
   ###
-  @param  string  label  The string to compare to, in order
+  @param  string  title  The string to compare to, in order
   to render a new notification.
   @param  string  value  The string to render. This will be
-  used by the label once there's a new notification to be 
+  used by the title once there's a new notification to be 
   rendered.
   @param  string  url
   ###
-  render: (label, value, url) ->
-    sProj = '.sidebar-menu .treeview-menu.projects #notif.project'
-    $("#{sProj}:contains('#{label}')").html value
+  render: (title, value, url) ->
+    sProj = '.sidebar-menu .treeview-menu.projects'
+    sTitle = "#{sProj} li > a > span"
+    i = $("#{sTitle}:contains('#{title}')").length
+    if i > 0
+      oNotif = $("#{sProj} #notif.project a")
+      oNotif.html value
 
 $(document).ready -> 
-  new WsNotif $('#push-notif').data('host'), $('#push-notif').data('topic')
+  new WsNotif $('#push-notif').data('host'), 
+    $('#push-notif').data('topic')

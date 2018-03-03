@@ -10,18 +10,19 @@ use Ratchet\Wamp\WampServer;
 /**
  * PushSubService class.
  * Manages WebSocket sub / subscribe / listeners.
- * Run once via shell like: php push-service.php
- * TODO: Create as daemon.
+ * TODO: Create as daemon and run once via shell 
+ * like: php PushSubService.php.
+ * @see \PHPCensor\BuildPushNotification.php.
  */
 final class PushSubService
 {
   /**
    * Construct.
-   * @param  string  $uri  The URI for WebSocket. Binding 
-   * to 0.0.0.0 allows remotes to connect.
+   * @param  string  $uri  The URI for WebSocket. 
+   * Binding to 0.0.0.0 allows remotes to connect.
    * Default is 127.0.0.1:8080.
-   * @param  string  $bindDns  Binding to 127.0.0.1 means
-   * the only client that can connect is itself.
+   * @param  string  $bindDns  Binding to 127.0.0.1 
+   * means the only client that can connect is itself.
    * Set to null or empty string to disable. The
    * default is tcp://127.0.0.1:5555.
    */
@@ -45,9 +46,23 @@ final class PushSubService
     $pushSvcHandler = 'onDataEntry';
     $pull->on('message', array($pushSvc, $pushSvcHandler));
 
-    //Set up our WebSocket server for clients wanting real-time updates.
+    //Set up our WebSocket server for clients 
+    //wanting real-time updates.
     $webSock = new Server($uri, $loop); 
-    $webServer = new IoServer(new HttpServer(new WsServer(new WampServer($pushSvc))), $webSock);
+    $webServer = new IoServer
+    (
+      new HttpServer
+      (
+        new WsServer
+        (
+          new WampServer
+          (
+            $pushSvc
+          )
+        )
+      ), 
+      $webSock
+    );
     $loop->run();
   }
 }

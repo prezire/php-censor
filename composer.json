@@ -97,7 +97,8 @@
         "bower-asset/admin-lte":    "~2.3.0",
         "bower-asset/font-awesome": "~4.7.0",
         "bower-asset/ionicons":     "~2.0.0",
-        "bower-asset/raphael":      "~2.2.0"
+        "bower-asset/raphael":      "~2.2.0",
+        "nesbot/carbon": "^1.23"
     },
     "require-dev": {
         "phpunit/dbunit": "~2.0.0"

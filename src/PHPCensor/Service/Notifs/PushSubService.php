@@ -10,7 +10,7 @@ use Ratchet\Wamp\WampServer;
 /**
  * PushSubService class.
  * Manages WebSocket sub / subscribe / listeners.
- * TODO: Create as daemon and run once via shell 
+ * TODO: Run as daemon and run once via shell 
  * like: php PushSubService.php.
  * @see \PHPCensor\BuildPushNotification.php.
  */

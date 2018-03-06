@@ -44,5 +44,5 @@ class @WsNotif
       oNotif.html value
 
 $(document).ready -> 
-  new WsNotif $('#push-notif').data('host'), 
-    $('#push-notif').data('topic')
+  new WsNotif $('#build-notif').data('host'), 
+    $('#build-notif').data('topic')

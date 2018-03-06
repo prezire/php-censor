@@ -50,7 +50,7 @@ $user = $this->getUser();
 <body class="app-layout <?php print !empty($skin) ? 'skin-' . $skin : 'skin-black'; ?>">
 
 <input type="hidden" 
-    id="push-notif"
+    id="build-notif"
     data-host="<?php echo config('php-censor.notifs.uri'); ?>"
     data-topic="<?php echo config('php-censor.notifs.topic'); ?>" />
 
@@ -275,7 +275,7 @@ $user = $this->getUser();
         PHP Censor v<?= $version; ?>
     </footer>
 
-    <!-- TODO: Gulp assets. -->
+    <?php //TODO: Gulp assets. ?>
     <script src="<?php print vendor('notifyjs/dist/notify.js'); ?>"></script>
     <?php js('notifs/autobahn.js'); ?>
     <?php js('notifs/ws.message.js'); ?>

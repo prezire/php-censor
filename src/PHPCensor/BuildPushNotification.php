@@ -5,14 +5,14 @@ use PHPCensor\Service\Notifs\PushSubService;
 use PHPCensor\Service\Notifs\PushService;
 /**
  * Class BuildPushNotification.
- * TODO: Daemon.
+ * TODO: Delete this file and daemonize pushsubservice.php.
  */
 final class BuildPushNotification
 {
   public function __construct()
   {
-    $uri = 'tcp://127.0.0.1:5555'; //config('phpci.notifs.uri');
-    $bindDns = 'some category'; //config('phpci.notifs.bindDns');
+    $uri = config('phpci.notifs.uri');
+    $bindDns = config('phpci.notifs.bindDns');
     new PushSubService($uri, $bindDns);
   }
 }

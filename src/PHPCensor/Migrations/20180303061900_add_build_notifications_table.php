@@ -19,8 +19,6 @@ final class AddBuildNotificationsTable extends AbstractMigration
     private function removeConstraints()
     {
         $table = $this->table(self::TABLE_NAME);
-        if ($table->hasIndex('user_id')) 
-            $table->removeIndex(['user_id'])->save();
         if ($table->hasIndex('build_id'))
             $table->removeIndex(['build_id'])->save();
     }
@@ -28,15 +26,9 @@ final class AddBuildNotificationsTable extends AbstractMigration
     {
         $table = $this->table(self::TABLE_NAME);
         $opts = ['delete'=> 'CASCADE', 'update' => 'CASCADE'];
-        if (!$table->hasIndex(['user_id']))
-            $table->addIndex(['user_id'])->save();
         if (!$table->hasIndex(['build_id']))
             $table->addIndex(['build_id'])->save();
         //
-        if (!$table->hasForeignKey('user_id'))
-            $table
-                ->addForeignKey('user_id', 'user', 'id', $opts)
-                ->save();
         if (!$table->hasForeignKey('build_id'))
             $table
                 ->addForeignKey('build_id', 'build', 'id', $opts)
@@ -48,8 +40,6 @@ final class AddBuildNotificationsTable extends AbstractMigration
         if (!$this->hasTable(self::TABLE_NAME))
             $table->create();
         //
-        if (!$table->hasColumn('user_id'))
-            $table->addColumn('user_id', 'integer')->save();
         if (!$table->hasColumn('build_id'))
             $table->addColumn('build_id', 'integer')->save();
         if (!$table->hasColumn('created_on'))

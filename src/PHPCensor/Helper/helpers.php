@@ -36,3 +36,10 @@ function css($url, $tokenizeUrl = false)
     tokenizeUrl($tokenizeUrl) . 
     '" rel="stylesheet" type="text/css" />';
 }
+function is_ajax()
+{
+  $reqWith = $_SERVER['HTTP_X_REQUESTED_WITH'];
+  $b = !empty($reqWith) && 
+        strtolower($reqWith) == 'xmlhttprequest';
+  return (bool)$b;
+}

@@ -45,7 +45,6 @@ final class BuildNotificationCommand extends Command
       Binding to 0.0.0.0 allows remotes to connect.
       Default is 127.0.0.1:8080.
     */
-    echo 'xxx';exit;
     $uri = config('phpci.notifs.uri');
     /*
       @var  string  $bindDns  Binding to 127.0.0.1 

@@ -6,23 +6,28 @@
  */
 final class PushPubService
 {
-  //TODO: Find the aggregated value of message key,
-  //which in this case is the total build.
-  public function __construct($title, $message, $url)
+  /**
+   * Constructor.
+   * Broadcasts status of builds via Push Notification.
+   * @param  string  $title  Build title.
+   * @param  string  $buildNotifType  Build NOTIF_TYPE 
+   * constants.
+   * @see   \PHPCensor\Model\Build
+   */
+  public function __construct($title, $buildNotifType)
   {
     $data = array
     (
       'topic' => config('phpci.notifs.topic'),
       'title' => $title,
-      'message' => $message,
-      'url' => $url,
+      'buildNotifType' => $buildNotifType,
       'sentOn' => $time
     );
     $context = new ZMQContext();
     $socket = $context->getSocket
     (
       ZMQ::SOCKET_PUSH,
-      'PHPCI Push Notification Server'
+      'PHPCensor Push Notification Server'
     );
     $socket->connect(config('phpci.notifs.bindDns'));
     $socket->send(json_encode($data));

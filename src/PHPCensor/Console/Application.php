@@ -148,6 +148,7 @@ LOGO;
         $this->add(new WorkerCommand($logger));
         $this->add(new RebuildQueueCommand($logger));
         $this->add(new ScheduleBuildCommand($projectStore, $buildStore, new BuildService($buildStore)));
+        $this->add(new BuildNotificationCommand($logger));
     }
 
     public function getHelp()

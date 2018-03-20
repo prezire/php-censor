@@ -98,7 +98,9 @@
         "bower-asset/font-awesome": "~4.7.0",
         "bower-asset/ionicons":     "~2.0.0",
         "bower-asset/raphael":      "~2.2.0",
-        "nesbot/carbon": "^1.23"
+        "nesbot/carbon": "^1.23",
+        "cboden/ratchet": "^0.4.1",
+        "react/zmq": "0.2.*|0.3.*"
     },
     "require-dev": {
         "phpunit/dbunit": "~2.0.0"

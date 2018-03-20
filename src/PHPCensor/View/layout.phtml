@@ -200,12 +200,8 @@ $user = $this->getUser();
                                 <a href="<?php print APP_URL; ?>project/view/<?= $project->getId(); ?>">
                                     <i class="fa fa-<?php print $project->getIcon(); ?>"></i>
                                     <span><?php print $project->getTitle(); ?></span>
+                                    <span id="notif" class="project label label-danger"><!-- Container for Push Notification counter. --></span>
                                 </a>
-                                <span id="notif" class="project label label-danger">
-                                    <a href="http://www.google.com">
-                                        1000
-                                    </a>
-                                </span>
                             </li>
                             <?php endforeach; ?>
                         </ul>

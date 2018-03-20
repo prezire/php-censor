@@ -18,42 +18,48 @@ Refer to the layout view.
       ctx = this;
       conn = new ab.Session(wsUri, function() {
         return conn.subscribe(topicUri, function(topic, data) {
+          data = {
+            title: 'Git Test'
+          };
+          console.log('on data', data);
           return ctx.onSub(topic, data);
         });
       }, function() {
-        return console.log('something went wrong.');
+        return console.log('Something went wrong. Check if the server is still running');
       }, {
         'skipSubprotocolCheck': true
       });
     }
 
     WsNotif.prototype.onSub = function(topic, data) {
-      var title, url, value;
-      title = 'Git Test';
-      value = 1;
-      url = 'http://www.google.com';
-      return this.render(title, value, url);
+      return this.render(data.title, data.url);
     };
 
 
     /*
     @param  string  title  The string to compare to, in order
     to render a new notification.
-    @param  string  value  The string to render. This will be
-    used by the title once there's a new notification to be 
-    rendered.
-    @param  string  url
      */
 
-    WsNotif.prototype.render = function(title, value, url) {
-      var i, oNotif, sProj, sTitle;
+    WsNotif.prototype.render = function(title) {
+      var oTitle, sProj, sTitle;
       sProj = '.sidebar-menu .treeview-menu.projects';
       sTitle = sProj + " li > a > span";
-      i = $(sTitle + ":contains('" + title + "')").length;
-      if (i > 0) {
-        oNotif = $(sProj + " #notif.project a");
-        return oNotif.html(value);
-      }
+      oTitle = $(sTitle + ":contains('" + title + "')");
+      return oTitle.filter(function() {
+        var n, oNotif, p;
+        if ($.trim($(this).text()) === $.trim(title)) {
+          p = $(this).closest('li');
+          oNotif = p.find('#notif.project');
+          n = parseInt(oNotif.html());
+          if (isNaN(n) || n < 0) {
+            n = 1;
+          } else {
+            n = n + 1;
+          }
+          return oNotif.html(n);
+        }
+      });
     };
 
     return WsNotif;
@@ -61,7 +67,7 @@ Refer to the layout view.
   })();
 
   $(document).ready(function() {
-    return new WsNotif($('#push-notif').data('host'), $('#push-notif').data('topic'));
+    return new WsNotif($('#build-notif').data('host'), $('#build-notif').data('topic'));
   });
 
 }).call(this);

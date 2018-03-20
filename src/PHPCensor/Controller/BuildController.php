@@ -243,6 +243,9 @@ class BuildController extends Controller
     */
     public function rebuild($buildId)
     {
+        new \PHPCensor\Service\Notifs\PushPubService('test', 3000, 'http://www.google.com');
+        return;
+        
         $copy    = BuildFactory::getBuildById($buildId);
         $project = b8\Store\Factory::getStore('Project')->getByPrimaryKey($copy->getProjectId());
 

@@ -15,6 +15,8 @@ use PHPCensor\Command\RebuildQueueCommand;
 use PHPCensor\Command\RunCommand;
 use PHPCensor\Command\ScheduleBuildCommand;
 use PHPCensor\Command\WorkerCommand;
+use PHPCensor\Command\BuildNotificationCommand;
+use PHPCensor\Command\NotificationCommand;
 use PHPCensor\Logging\Handler;
 use PHPCensor\Service\BuildService;
 use PHPCensor\Store\BuildStore;
@@ -145,10 +147,10 @@ LOGO;
         $this->add(new InstallCommand());
         $this->add(new CreateAdminCommand($userStore));
         $this->add(new CreateBuildCommand($projectStore, new BuildService($buildStore)));
+        $this->add(new BuildNotificationCommand($logger));
         $this->add(new WorkerCommand($logger));
         $this->add(new RebuildQueueCommand($logger));
         $this->add(new ScheduleBuildCommand($projectStore, $buildStore, new BuildService($buildStore)));
-        $this->add(new BuildNotificationCommand($logger));
     }
 
     public function getHelp()

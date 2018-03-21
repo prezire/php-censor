@@ -1,0 +1,64 @@
+b8:
+    database:
+        servers:
+            read: [{ host: localhost }]
+            write: [{ host: localhost }]
+        type: mysql
+        name: phpcensor
+        username: phpmyadmin
+        password: E1G4F801
+php-censor:
+    language: en
+    per_page: 10
+    url: 'http://php-censor.test'
+    queue:
+        use_queue: false
+        host: null
+        name: null
+        lifetime: 600
+    log:
+        rotate: false
+        max_files: 0
+    email_settings:
+        from_address: 'PHP Censor <no-reply@php-censor.local>'
+        smtp_address: null
+        smtp_port: null
+        smtp_username: null
+        smtp_password: null
+        smtp_encryption: false
+    ssh:
+        strength: 2048
+        comment: admin@php-censor
+    bitbucket:
+        username: null
+        app_password: null
+        comments:
+            commit: false
+            pull_request: false
+        status:
+            commit: false
+    github:
+        token: null
+        comments:
+            commit: false
+            pull_request: false
+        status:
+            commit: false
+    build:
+        remove_builds: true
+        writer_buffer_size: 500
+    security:
+        disable_auth: false
+        default_user_id: 1
+        auth_providers:
+            internal: { type: internal }
+    dashboard_widgets:
+        all_projects:
+            side: left
+        last_builds:
+            side: right
+    notifs:
+        uri: '127.0.0.1:8080'
+        bindDns: 'tcp://127.0.0.1:5555'
+        topic: 'some category'
+        #topic: builds

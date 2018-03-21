@@ -12,9 +12,17 @@ class PushService implements WampServerInterface,
                              PushInterface
 {
   protected $topics;
+  protected $output;
   public function __construct()
   {
     $this->topics = array();
+    //$this->output = $output;
+    //$this->debug('Construct.')
+  }
+  protected final function debug($message)
+  {
+    if(!is_null($this->output))
+      $this->output->writeln("PushService: {$message}.");
   }
   public function onUnSubscribe
   (
@@ -23,14 +31,17 @@ class PushService implements WampServerInterface,
   )
   {
     /*Do nothing.*/
+    //$this->debug('onUnSubscribe');
   }
   public function onOpen(ConnectionInterface $conn)
   {
     /*Do nothing.*/
+    //$this->debug('onOpen');
   }
   public function onClose(ConnectionInterface $conn)
   {
     /*Do nothing.*/
+    //$this->debug('onClose');
   }
   public function onError
   (
@@ -39,6 +50,7 @@ class PushService implements WampServerInterface,
   )
   {
     /*Do nothing.*/
+    //$this->debug('onError ' . $e->getMessage());
   }
   public function onCall
   (

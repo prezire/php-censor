@@ -3,26 +3,28 @@ use Exception;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use PHPCensor\Service\Notifs\PushInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class PushService.
  * Processes the filters and broadcasts of push
  * notifications to all listeners during data entry.
+ * Override this class to handle the different events.
  */
 class PushService implements WampServerInterface, 
                              PushInterface
 {
   protected $topics;
   protected $output;
-  public function __construct()
+  public function __construct(OutputInterface $output = null)
   {
     $this->topics = array();
-    //$this->output = $output;
-    //$this->debug('Construct.')
+    $this->output = $output;
+    $this->debug('Construct');
   }
   protected final function debug($message)
   {
     if(!is_null($this->output))
-      $this->output->writeln("PushService: {$message}.");
+      $this->output->writeln("PushService: {$message}");
   }
   public function onUnSubscribe
   (
@@ -30,18 +32,15 @@ class PushService implements WampServerInterface,
     $topic
   )
   {
-    /*Do nothing.*/
-    //$this->debug('onUnSubscribe');
+    $this->debug('onUnSubscribe');
   }
   public function onOpen(ConnectionInterface $conn)
   {
-    /*Do nothing.*/
-    //$this->debug('onOpen');
+    $this->debug('onOpen');
   }
   public function onClose(ConnectionInterface $conn)
   {
-    /*Do nothing.*/
-    //$this->debug('onClose');
+    $this->debug('onClose');
   }
   public function onError
   (
@@ -49,8 +48,7 @@ class PushService implements WampServerInterface,
     Exception $e
   )
   {
-    /*Do nothing.*/
-    //$this->debug('onError ' . $e->getMessage());
+    $this->debug('onError ' . $e->getMessage());
   }
   public function onCall
   (
@@ -99,6 +97,7 @@ class PushService implements WampServerInterface,
       return;
     }
     $topic = $this->topics[$entryData['topic']];
+    $this->debug('onDataEntry ' . print_r($entryData, true));
     //Re-send the data to all the clients 
     //subscribed to that topic.
     $topic->broadcast($entryData);

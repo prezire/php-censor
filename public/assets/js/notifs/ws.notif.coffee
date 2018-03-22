@@ -13,24 +13,33 @@ class @WsNotif
     conn = new ab.Session wsUri, 
       -> 
         conn.subscribe topicUri, (topic, data) ->
-          data = {title: 'Git Test'}
-          console.log 'on data', data
           ctx.onSub topic, data
       ,
       -> 
-        console.log('Something went wrong. Check if the server is still running')
+        console.log('Something went wrong. Check if the 
+          Push Notification Server is still running.')
       ,
       {'skipSubprotocolCheck': true}
 
   onSub: (topic, data) ->
-    #TODO: topic.
-    @render data.title, data.url
+    #TODO: Do anything needed here...
+    @render data.title, data.buildNotifType
 
-  ###
-  @param  string  title  The string to compare to, in order
-  to render a new notification.
-  ###
-  render: (title) ->
+  #Determins the color of container 
+  #based on the build notification type.
+  label: (buildNotifType) ->
+    lbl = ''
+    switch buildNotifType
+      when 'Create' then lbl = 'label-success'
+      when 'Create Duplicate' then lbl = 'label-primary'
+      when 'Delete' then lbl = 'label-danger'
+    lbl
+
+  #@param  string  title  The string to compare to, 
+  #in order to render a new notification.  
+  render: (title, buildNotifType) ->
+    lbl = @label buildNotifType
+    console.log 'lbl ', lbl
     sProj = '.sidebar-menu .treeview-menu.projects'
     sTitle = "#{sProj} li > a > span"
     oTitle = $("#{sTitle}:contains('#{title}')")
@@ -38,6 +47,7 @@ class @WsNotif
       if $.trim($(this).text()) is $.trim(title)
         p = $(this).closest 'li'
         oNotif = p.find('#notif.project')
+        oNotif.addClass lbl
         n = parseInt(oNotif.html())
         if isNaN(n) or n < 0
           n = 1

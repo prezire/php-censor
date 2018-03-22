@@ -18,31 +18,39 @@ Refer to the layout view.
       ctx = this;
       conn = new ab.Session(wsUri, function() {
         return conn.subscribe(topicUri, function(topic, data) {
-          data = {
-            title: 'Git Test'
-          };
-          console.log('on data', data);
           return ctx.onSub(topic, data);
         });
       }, function() {
-        return console.log('Something went wrong. Check if the server is still running');
+        return console.log('Something went wrong. Check if the Push Notification Server is still running.');
       }, {
         'skipSubprotocolCheck': true
       });
     }
 
     WsNotif.prototype.onSub = function(topic, data) {
-      return this.render(data.title, data.url);
+      return this.render(data.title, data.buildNotifType);
     };
 
+    WsNotif.prototype.label = function(buildNotifType) {
+      var lbl;
+      lbl = '';
+      switch (buildNotifType) {
+        case 'Create':
+          lbl = 'label-success';
+          break;
+        case 'Create Duplicate':
+          lbl = 'label-primary';
+          break;
+        case 'Delete':
+          lbl = 'label-danger';
+      }
+      return lbl;
+    };
 
-    /*
-    @param  string  title  The string to compare to, in order
-    to render a new notification.
-     */
-
-    WsNotif.prototype.render = function(title) {
-      var oTitle, sProj, sTitle;
+    WsNotif.prototype.render = function(title, buildNotifType) {
+      var lbl, oTitle, sProj, sTitle;
+      lbl = this.label(buildNotifType);
+      console.log('lbl ', lbl);
       sProj = '.sidebar-menu .treeview-menu.projects';
       sTitle = sProj + " li > a > span";
       oTitle = $(sTitle + ":contains('" + title + "')");
@@ -51,6 +59,7 @@ Refer to the layout view.
         if ($.trim($(this).text()) === $.trim(title)) {
           p = $(this).closest('li');
           oNotif = p.find('#notif.project');
+          oNotif.addClass(lbl);
           n = parseInt(oNotif.html());
           if (isNaN(n) || n < 0) {
             n = 1;

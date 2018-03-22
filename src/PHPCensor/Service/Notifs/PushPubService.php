@@ -1,4 +1,6 @@
 <?php namespace PHPCensor\Service\Notifs;
+use ZMQContext;
+use ZMQ;
 /**
  * PushPubService class.
  * Manages WebSocket pub / publish / broadcasts.
@@ -18,18 +20,18 @@ final class PushPubService
   {
     $data = array
     (
-      'topic' => config('phpci.notifs.topic'),
+      'topic' => config('php-censor.notifs.topic'),
       'title' => $title,
       'buildNotifType' => $buildNotifType,
-      'sentOn' => $time
+      'sentOn' => date('Ymdhis')
     );
     $context = new ZMQContext();
     $socket = $context->getSocket
     (
-      ZMQ::SOCKET_PUSH,
+      ZMQ::SOCKET_PUSH, 
       'PHPCensor Push Notification Server'
     );
-    $socket->connect(config('phpci.notifs.bindDns'));
+    $socket->connect(config('php-censor.notifs.bindDns'));
     $socket->send(json_encode($data));
   }
 }

@@ -17,7 +17,7 @@ use PHPCensor\Service\Notifs\PushService;
 /**
  * Class BuildNotificationCommand.
  * A Push Notification WebSocket Server that listens and
- * broadcasts real-time updates for a build for active projects.
+ * broadcasts real-time Project Builds.
  * @example  nohup php bin/console php-censor:build-notifications &
  */
 final class BuildNotificationCommand extends Command
@@ -82,9 +82,9 @@ final class BuildNotificationCommand extends Command
      */
     $bindDns = config('php-censor.notifs.bindDns');
     $loop = Factory::create();
-    $pushSvc = new PushService();
+    $pushSvc = new PushService($output);
     //Listen for the web server to make a ZeroMQ 
-    //push after an ajax request.
+    //push after an AJAX request.
     $context = new Context($loop);
     $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
     $pull->bind($bindDns);

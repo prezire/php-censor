@@ -34,9 +34,9 @@ class Build extends Model
     const SOURCE_WEBHOOK              = 4;
     const SOURCE_WEBHOOK_PULL_REQUEST = 5;
 
-    const NOTIF_TYPE_CREATE = 'Create';
+    const NOTIF_TYPE_CREATE           = 'Create';
     const NOTIF_TYPE_CREATE_DUPLICATE = 'Create Duplicate';
-    CONST NOTIF_TYPE_DELETE = 'Delete';
+    CONST NOTIF_TYPE_DELETE           = 'Delete';
 
     /**
      * @var string

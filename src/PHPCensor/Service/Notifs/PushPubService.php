@@ -20,13 +20,13 @@ final class PushPubService
   {
     $data = array
     (
-      'topic' => config('php-censor.notifs.topic'),
-      'title' => $title,
+      'topic'          => config('php-censor.notifs.topic'),
+      'title'          => $title,
       'buildNotifType' => $buildNotifType,
-      'sentOn' => date('Ymdhis')
+      'sentOn'         => date('Ymdhis')
     );
     $context = new ZMQContext();
-    $socket = $context->getSocket
+    $socket  = $context->getSocket
     (
       ZMQ::SOCKET_PUSH, 
       'PHPCensor Push Notification Server'

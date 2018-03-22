@@ -93,9 +93,7 @@ class PushService implements WampServerInterface,
     //If the lookup topic object isn't 
     //set there is no one to publish to.
     if(!array_key_exists($entryData['topic'], $this->topics)) 
-    {
       return;
-    }
     $topic = $this->topics[$entryData['topic']];
     $this->debug('onDataEntry ' . print_r($entryData, true));
     //Re-send the data to all the clients 

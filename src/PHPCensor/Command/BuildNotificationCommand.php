@@ -81,18 +81,18 @@ final class BuildNotificationCommand extends Command
       default is tcp://127.0.0.1:5555.
      */
     $bindDns = config('php-censor.notifs.bindDns');
-    $loop = Factory::create();
+    $loop    = Factory::create();
     $pushSvc = new PushService($output);
     //Listen for the web server to make a ZeroMQ 
     //push after an AJAX request.
     $context = new Context($loop);
-    $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
+    $pull    = $context->getSocket(\ZMQ::SOCKET_PULL);
     $pull->bind($bindDns);
     $pushSvcHandler = 'onDataEntry';
     $pull->on('message', array($pushSvc, $pushSvcHandler));
     //Set up our WebSocket server for clients wanting 
     //real-time updates.
-    $webSock = new Server($uri, $loop); 
+    $webSock   = new Server($uri, $loop); 
     $webServer = new IoServer
     (
       new HttpServer

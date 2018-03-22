@@ -49,10 +49,11 @@ $user = $this->getUser();
 </head>
 <body class="app-layout <?php print !empty($skin) ? 'skin-' . $skin : 'skin-black'; ?>">
 
+<?php $notifs = 'php-censor.notifs'; ?>
 <input type="hidden" 
     id="build-notif"
-    data-host="<?php echo config('php-censor.notifs.uri'); ?>"
-    data-topic="<?php echo config('php-censor.notifs.topic'); ?>" />
+    data-host="<?php echo config($notifs . '.uri'); ?>"
+    data-topic="<?php echo config($notifs . '.topic'); ?>" />
 
 <div class="wrapper row-offcanvas row-offcanvas-left">
 
@@ -274,7 +275,7 @@ $user = $this->getUser();
     <?php //TODO: Gulp assets. ?>
     <script src="<?php print vendor('notifyjs/dist/notify.js'); ?>"></script>
     <?php js('notifs/autobahn.js'); ?>
-    <?php js('notifs/ws.message.js'); ?>
+    <?php js('notifs/ws.build.js'); ?>
     <?php js('notifs/ws.notif.js'); ?>
 </div>
 </body>

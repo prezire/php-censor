@@ -9,11 +9,11 @@ class @WsNotif
     else
       protocol = 'wss:'
     wsUri = "#{protocol}//#{wsUri}"
-    ctx = @
-    conn = new ab.Session wsUri, 
+    ctx   = @
+    conn  = new ab.Session wsUri, 
       -> 
         conn.subscribe topicUri, (topic, data) ->
-          ctx.onSub topic, data
+          ctx.onSub new WsBuild(data.title, data.type)
       ,
       -> 
         console.log('Something went wrong. Check if the 
@@ -21,41 +21,33 @@ class @WsNotif
       ,
       {'skipSubprotocolCheck': true}
 
-  onSub: (topic, data) ->
-    #TODO: Do anything needed here...
-    @render data.title, data.buildNotifType
+  onSub: (wsBuild) -> @render wsBuild.title, wsBuild.type
 
   #Determins the color of container 
   #based on the build notification type.
-  label: (buildNotifType) ->
+  label: (type) ->
     lbl = ''
-    switch buildNotifType
-      when 'Create' then lbl = 'label-success'
+    switch type
+      when 'Create' then lbl           = 'label-success'
       when 'Create Duplicate' then lbl = 'label-primary'
-      when 'Delete' then lbl = 'label-danger'
+      when 'Delete' then lbl           = 'label-danger'
     lbl
 
   #@param  string  title  The string to compare to, 
-  #in order to render a new notification.  
-  render: (title, buildNotifType) ->
-    lbl = @label buildNotifType
-    console.log 'lbl ', lbl
-    sProj = '.sidebar-menu .treeview-menu.projects'
+  #in order to render the new notification.  
+  render: (title, type) ->
+    lbl    = @label type
+    sProj  = '.sidebar-menu .treeview-menu.projects'
     sTitle = "#{sProj} li > a > span"
-    oTitle = $("#{sTitle}:contains('#{title}')")
-    oTitle.filter(->
+    $("#{sTitle}:contains('#{title}')").filter ->
       if $.trim($(this).text()) is $.trim(title)
-        p = $(this).closest 'li'
-        oNotif = p.find('#notif.project')
+        li     = $(this).closest 'li'
+        oNotif = li.find('#notif.project')
         oNotif.addClass lbl
-        n = parseInt(oNotif.html())
-        if isNaN(n) or n < 0
-          n = 1
-        else
-          n = n + 1
+        n = parseInt oNotif.html()
+        n = if isNaN(n) or n < 0 then 1 else n + 1
         oNotif.html n
-    )
 
 $(document).ready -> 
-  new WsNotif $('#build-notif').data('host'), 
-    $('#build-notif').data('topic')
+  b = $('#build-notif')
+  new WsNotif b.data('host'), b.data('topic')

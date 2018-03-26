@@ -5,8 +5,8 @@ b8:
             write: [{ host: localhost }]
         type: mysql
         name: phpcensor
-        username: phpmyadmin
-        password: E1G4F801
+        username: ''
+        password: ''
 php-censor:
     language: en
     per_page: 10
@@ -60,5 +60,4 @@ php-censor:
     notifs:
         uri: '127.0.0.1:8080'
         bindDns: 'tcp://127.0.0.1:5555'
-        topic: 'some category'
-        #topic: builds
+        topic: 'builds'

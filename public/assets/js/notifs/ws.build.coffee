@@ -2,5 +2,5 @@
 WebSocket Build Notification class.
 ###
 class @WsBuild
-  constructor: (@title, @type) ->
+  constructor: (@projectTitle, @type) ->
     #TODO: Do anything needed here...

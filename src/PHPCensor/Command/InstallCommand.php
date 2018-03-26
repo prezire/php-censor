@@ -311,6 +311,11 @@ class InstallCommand extends Command
                     'side' => 'right',
                 ],
             ],
+            'notifs' => [
+                'uri' => '127.0.0.1:8080',
+                'bindDns' => 'tcp://127.0.0.1:5555',
+                'topic' => 'builds',
+            ],
         ];
     }
 

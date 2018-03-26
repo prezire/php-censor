@@ -11,19 +11,19 @@ final class PushPubService
   /**
    * Constructor.
    * Broadcasts status of builds via Push Notification.
-   * @param  string  $title  Build title.
+   * @param  string  $projectTitle  Project title.
    * @param  string  $type  Build NOTIF_TYPE 
    * constants.
    * @see   \PHPCensor\Model\Build
    */
-  public function __construct($title, $type)
+  public function __construct($projectTitle, $type)
   {
     $data = array
     (
-      'topic'  => config('php-censor.notifs.topic'),
-      'title'  => $title,
-      'type'   => $type,
-      'sentOn' => date('Ymdhis')
+      'topic'        => config('php-censor.notifs.topic'),
+      'projectTitle' => $projectTitle,
+      'type'         => $type,
+      'sentOn'       => date('Ymdhis')
     );
     $context = new ZMQContext();
     $socket  = $context->getSocket

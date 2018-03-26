@@ -19,7 +19,7 @@
           return ctx.onSub(new WsBuild(data.projectTitle, data.type));
         });
       }, function() {
-        return console.log('Something went wrong. Check if the Web Push Notification Server for Project Builds is still running by executing ./bin/console php-censor:build-notification in the Terminal.');
+        return console.log("Something went wrong. Check if the Build Notification Server is running by executing nohup './bin/console php-censor:build-notification &' in the Terminal.");
       }, {
         'skipSubprotocolCheck': true
       });
@@ -70,7 +70,7 @@
 
     renderUi(projectTitle, type) {
       var msg, title;
-      title = 'PHP Censor - Web Notification';
+      title = 'PHP Censor - Build Notification';
       if (!Notify.needsPermission) {
         msg = `A new build has been created for project ${projectTitle}.`;
         return new Notify(title, {
@@ -88,7 +88,9 @@
   $(document).ready(function() {
     var b;
     b = $('#build-notif');
-    return new WsNotif(b.data('host'), b.data('topic'));
+    if (b.length > 0) {
+      return new WsNotif(b.data('host'), b.data('topic'));
+    }
   });
 
 }).call(this);

@@ -248,7 +248,7 @@ class InstallCommand extends Command
 
         $queueConfig = $this->getQueueInformation($input, $output);
 
-        return [
+        $configInfos = [
             'language' => 'en',
             'per_page' => 10,
             'url'      => $url,
@@ -310,13 +310,49 @@ class InstallCommand extends Command
                 'last_builds' => [
                     'side' => 'right',
                 ],
-            ],
-            'notifs' => [
-                'uri' => '127.0.0.1:8080',
-                'bindDns' => 'tcp://127.0.0.1:5555',
-                'topic' => 'builds',
-            ],
+            ]
         ];
+
+        $configInfos += $this->getNotifInformation($input, $output);
+
+        return $configInfos;
+    }
+
+    protected function getNotifInformation
+    (
+        InputInterface $input, 
+        OutputInterface $output
+    )
+    {
+        $helper  = $this->getHelperSet()->get('question');
+        $qstnZmq = new ConfirmationQuestion
+        (
+            'Use ZeroMQ to listen for build changes using WebSocket? ', 
+            false
+        );
+        if (!$helper->ask($input, $output, $qstnZmq)) 
+        {
+            $output->writeln('<error>Skipping ZeroMQ configuration.</error>');
+            return [];
+        }
+        $uri          = '127.0.0.1:8080';
+        $bindDns      = 'tcp://127.0.0.1:5555';
+        $sWs          = 'WebSocket';
+        $sExmpl       = 'for example';
+        $sQstnUri     = "{$sWs} URI (\"{$uri}\" {$sExmpl}): ";
+        $sQstnBindDns = "{$sWs} BIND DNS (\"{$bindDns}\" {$sExmpl}): ";
+        $qstnUri      = new Question($sQstnUri, $uri);
+        $qstnBindDns  = new Question($sQstnBindDns, $bindDns);
+        $infos        = 
+        [
+            'notifs' => 
+            [
+                'uri'     => $helper->ask($input, $output, $qstnUri),
+                'bindDns' => $helper->ask($input, $output, $qstnBindDns),
+                'topic'   => 'builds'
+            ]
+        ];
+        return $infos;
     }
 
     /**

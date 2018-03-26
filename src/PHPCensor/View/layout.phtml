@@ -49,11 +49,21 @@ $user = $this->getUser();
 </head>
 <body class="app-layout <?php print !empty($skin) ? 'skin-' . $skin : 'skin-black'; ?>">
 
-<?php $notifs = 'php-censor.notifs'; ?>
-<input type="hidden" 
-    id="build-notif"
-    data-host="<?php echo config($notifs . '.uri'); ?>"
-    data-topic="<?php echo config($notifs . '.topic'); ?>" />
+    <?php
+        $hasNotifs = hasNotifs();
+        if($hasNotifs)
+        {
+            $notifs = 'php-censor.notifs';
+            $host   = config($notifs . '.uri');
+            $topic  = config($notifs . '.topic');
+    ?>
+            <input type="hidden" 
+                id="build-notif"
+                data-host="<?php echo $host; ?>"
+                data-topic="<?php echo $topic; ?>" />
+    <?php 
+        } 
+    ?>
 
 <div class="wrapper row-offcanvas row-offcanvas-left">
 
@@ -272,12 +282,18 @@ $user = $this->getUser();
         PHP Censor v<?= $version; ?>
     </footer>
 
-    <?php //TODO: Gulp assets. ?>
-    <!-- script src="<?php print vendor('notifyjs/dist/notify.js'); ?>"></script -->
-    <?php js('notifs/autobahn.js'); ?>
-    <?php js('notifs/notify.js'); ?>
-    <?php js('notifs/ws.build.js'); ?>
-    <?php js('notifs/ws.notif.js'); ?>
+    <?php 
+        if($hasNotifs)
+        {
+            //TODO: Gulp assets esp. from NPM.
+    ?>
+            <?php js('notifs/autobahn.js'); ?>
+            <?php js('notifs/notify.js'); ?>
+            <?php js('notifs/ws.build.js'); ?>
+            <?php js('notifs/ws.notif.js'); ?>
+    <?php
+        }
+    ?>
 </div>
 </body>
 </html>

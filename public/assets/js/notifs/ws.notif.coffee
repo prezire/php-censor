@@ -16,9 +16,8 @@ class @WsNotif
           ctx.onSub new WsBuild(data.projectTitle, data.type)
       ,
       -> 
-        console.log 'Something went wrong. Check if the Web Push Notification Server for Project Builds is still running
-          by executing ./bin/console php-censor:build-notification
-          in the Terminal.'
+        console.log "Something went wrong. Check if the Build Notification Server is running by executing nohup './bin/console php-censor:build-notification &'
+          in the Terminal."
       ,
       {'skipSubprotocolCheck': true}
 
@@ -52,7 +51,7 @@ class @WsNotif
         ctx.renderUi title, type
 
   renderUi: (projectTitle, type) ->
-    title = 'PHP Censor - Web Notification'
+    title = 'PHP Censor - Build Notification'
     if !Notify.needsPermission
       msg = "A new build has been created for project #{projectTitle}."
       new Notify(title, {body: msg}).show()
@@ -62,4 +61,5 @@ class @WsNotif
 
 $(document).ready -> 
   b = $('#build-notif')
-  new WsNotif b.data('host'), b.data('topic')
+  if b.length > 0
+    new WsNotif b.data('host'), b.data('topic')

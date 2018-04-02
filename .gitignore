@@ -17,3 +17,5 @@
 
 /public/artifacts
 !/public/artifacts/.gitkeep
+
+/node_modules/*

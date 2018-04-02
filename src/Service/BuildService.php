@@ -9,6 +9,7 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\Project;
 use PHPCensor\Store\BuildStore;
+use PHPCensor\Service\Notifs\PushPubService;
 
 /**
  * The build service handles the creation, duplication and deletion of builds.
@@ -102,6 +103,11 @@ class BuildService
             $build = BuildFactory::getBuild($build);
             $build->sendStatusPostback();
             $this->addBuildToQueue($build);
+            new PushPubService
+            (
+                $project->getTitle(),
+                Build::NOTIF_TYPE_CREATE
+            );
         }
 
         return $build;
@@ -136,6 +142,11 @@ class BuildService
             $build = BuildFactory::getBuild($build);
             $build->sendStatusPostback();
             $this->addBuildToQueue($build);
+            new PushPubService
+            (
+                $build->getProject()->getTitle(),
+                Build::NOTIF_TYPE_CREATE_DUPLICATE
+            );
         }
 
         return $build;

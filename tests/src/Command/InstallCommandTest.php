@@ -274,4 +274,15 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
         // Check that specified arguments are correctly loaded.
         self::assertEquals('testedvalue', $this->admin['password']);
     }
+
+    public function testNotifConfigs()
+    {
+        $s = 'testedvalue';
+        $dialog = $this->getHelperMock();
+        $dialog->method('ask')->willReturn($s);
+        $this->executeWithoutParam(null, $dialog);
+        $n = $this->config['php-censor']['notifs'];
+        self::assertEquals($s, $n['uri']);
+        self::assertEquals($s, $n['bindDns']);
+    }
 }

@@ -20,6 +20,8 @@ $user = $this->getUser();
     <link href="<?= APP_URL; ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= APP_URL; ?>assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
+    <link href="<?= APP_URL; ?>assets/css/notif.css" rel="stylesheet" type="text/css" />
+
     <script src="<?= APP_URL; ?>assets/js/class.js"></script>
 
     <script src="<?= APP_URL; ?>assets/vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -46,6 +48,23 @@ $user = $this->getUser();
 
 </head>
 <body class="app-layout <?= (!empty($skin) ? 'skin-' . $skin : 'skin-black'); ?>">
+
+<?php
+    $hasNotifs = hasNotifs();
+    if($hasNotifs)
+    {
+        $notifs = 'php-censor.notifs';
+        $host   = config($notifs . '.uri');
+        $topic  = config($notifs . '.topic');
+?>
+        <input type="hidden" 
+            id="build-notif"
+            data-host="<?php echo $host; ?>"
+            data-topic="<?php echo $topic; ?>" />
+<?php 
+    } 
+?>
+
 <div class="wrapper row-offcanvas row-offcanvas-left">
 
 <!-- header logo: style can be found in header.less -->
@@ -192,6 +211,7 @@ $user = $this->getUser();
                                 <a href="<?= APP_URL; ?>project/view/<?= $project->getId(); ?>">
                                     <i class="fa fa-<?= $project->getIcon(); ?>"></i>
                                     <span><?= $project->getTitle(); ?></span>
+                                    <span id="notif" class="project label"><!-- Container for Push Notification counter. --></span>
                                 </a>
                             </li>
                             <?php endforeach; ?>
@@ -260,6 +280,18 @@ $user = $this->getUser();
     <footer class="main-footer">
         PHP Censor v<?= $version; ?>
     </footer>
+    <?php 
+        if($hasNotifs)
+        {
+    ?>
+            <script src="<?= APP_URL; ?>assets/js/class.js"></script>
+            <script src="<?= APP_URL; ?>assets/js/notifs/autobahn.js"></script>
+            <script src="<?= APP_URL; ?>assets/js/notifs/notify.js"></script>
+            <script src="<?= APP_URL; ?>assets/js/notifs/ws.build.js"></script>
+            <script src="<?= APP_URL; ?>assets/js/notifs/ws.notif.js"></script>
+    <?php
+        }
+    ?>
 </div>
 </body>
 </html>

@@ -24,6 +24,10 @@ class Build extends BaseBuild
     const STAGE_FIXED    = 'fixed';
     const STAGE_BROKEN   = 'broken';
 
+    const NOTIF_TYPE_CREATE           = 'Create';
+    const NOTIF_TYPE_CREATE_DUPLICATE = 'Create Duplicate';
+    CONST NOTIF_TYPE_DELETE           = 'Delete';
+
     /**
      * @var integer
      */
